@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.tcmsoso.coolwether.db.CoolWeatherOpenHelper;
+import com.tcmsoso.coolwether.db.City;
+import com.tcmsoso.coolwether.db.County;
+import com.tcmsoso.coolwether.db.Province;
 
 import java.util.ArrayList;
 import java.util.List;
