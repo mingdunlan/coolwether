@@ -3,9 +3,11 @@ package com.tcmsoso.coolwether.util;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.tcmsoso.coolwether.db.City;
 import com.tcmsoso.coolwether.db.County;
 import com.tcmsoso.coolwether.db.Province;
+import com.tcmsoso.coolwether.gson.Weather;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,5 +77,17 @@ public class Utility {
             }
         }
         return false;
+    }
+
+    public static Weather handleWeatherResponse(String response){
+        try{
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
+            String weatherContent = jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent,Weather.class);
+        } catch ( Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
