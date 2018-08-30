@@ -16,10 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tcmsoso.coolwether.R;
+import com.tcmsoso.coolwether.activity.MainActivity;
 import com.tcmsoso.coolwether.activity.WeatherActivity;
 import com.tcmsoso.coolwether.db.City;
 import com.tcmsoso.coolwether.db.County;
 import com.tcmsoso.coolwether.db.Province;
+import com.tcmsoso.coolwether.gson.Weather;
 import com.tcmsoso.coolwether.util.HttpUtil;
 import com.tcmsoso.coolwether.util.Utility;
 
@@ -85,10 +87,18 @@ public class ChooseAreaFragment extends Fragment {
                     queryCounties();
                 } else if(currentLevel == LEVEL_COUNTY) {
                     String weatherId = countyList.get(i).getWeatherId();
-                    Intent intent = new Intent(getActivity(),WeatherActivity.class);
-                    intent.putExtra("weather_id",weatherId);
-                    startActivity(intent);
-                    getActivity().finish();
+                    if (getActivity() instanceof MainActivity){
+                        Intent intent = new Intent(getActivity(),WeatherActivity.class);
+                        intent.putExtra("weather_id",weatherId);
+                        startActivity(intent);
+                        getActivity().finish();
+                    } else if (getActivity() instanceof WeatherActivity){
+                        WeatherActivity activity = (WeatherActivity) getActivity();
+                        activity.drawerLayout.closeDrawers();
+                        activity.swipeRefresh.setRefreshing(true);
+                        activity.requestWeather(weatherId);
+
+                    }
                 }
             }
         });
